@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eft.person.dao.PersonDao">
+    <resultMap id="BaseResultMap" type="com.eft.person.domain.Person">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="DATE"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, date, address
+    </sql>
+    <select id="findPersonList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from Person
+    </select>
+    <delete id="deletePerson" parameterType="java.lang.Integer">
+        delete from Person
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="createPerson" parameterType="com.eft.person.domain.Person">
+        insert into Person (id, name, address,
+        date)
+        values (NULL , #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+        #{date,jdbcType=DATE})
+    </insert>
+    <!--<insert id="insertSelective" parameterType="com.xdd.entity.User">-->
+        <!--insert into user_t-->
+        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+            <!--<if test="id != null">-->
+                <!--id,-->
+            <!--</if>-->
+            <!--<if test="userName != null">-->
+                <!--user_name,-->
+            <!--</if>-->
+            <!--<if test="password != null">-->
+                <!--password,-->
+            <!--</if>-->
+            <!--<if test="age != null">-->
+                <!--age,-->
+            <!--</if>-->
+        <!--</trim>-->
+        <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+            <!--<if test="id != null">-->
+                <!--#{id,jdbcType=INTEGER},-->
+            <!--</if>-->
+            <!--<if test="userName != null">-->
+                <!--#{userName,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="password != null">-->
+                <!--#{password,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="age != null">-->
+                <!--#{age,jdbcType=INTEGER},-->
+            <!--</if>-->
+        <!--</trim>-->
+    <!--</insert>-->
+    <!--<update id="updateByPrimaryKeySelective" parameterType="com.eft.person.domain.Person">-->
+        <!--update user_t-->
+        <!--<set>-->
+            <!--<if test="userName != null">-->
+                <!--user_name = #{userName,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="password != null">-->
+                <!--password = #{password,jdbcType=VARCHAR},-->
+            <!--</if>-->
+            <!--<if test="age != null">-->
+                <!--age = #{age,jdbcType=INTEGER},-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</update>-->
+    <update id="modifyPerson" parameterType="com.eft.person.domain.Person">
+        update Person
+        set name = #{name,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        date = #{date,jdbcType=DATE}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="countPerson" resultType="Integer">
+        select count(1) from Person
+    </select>
+    <select id="findPerson" resultType="com.eft.person.domain.Person" parameterType="Integer">
+        select
+        <include refid="Base_Column_List"/>
+         from Person where id=#{id}
+    </select>
+</mapper>
